@@ -207,11 +207,11 @@ def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_co
                 history["validation"][metric].append(vm)
 
         dumpjson(
-                filename=os.path.join('.', "history_val.json"),
+                filename=os.path.join('.', train_config.checkpoint_dir+f"/{target}_history_val.json"),
                 data=history["validation"],
             )
         dumpjson(
-            filename=os.path.join('.', "history_train.json"),
+            filename=os.path.join('.',train_config.checkpoint_dir+f"/{target}_history_train.json"),
             data=history["train"],
         )
     #早停法，没有更多进展时尽早中断训练
@@ -274,7 +274,7 @@ def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_co
         else:
             metric_names=["accuracy","rocauc"]
         
-        tb_logger = TensorboardLogger(log_dir= "tf_logs/AAGNNv2/jarvis/"+target)
+        tb_logger = TensorboardLogger(train_config.log_dir+target)
         for tag, evaluator in [
             ("training", train_evaluator),
             ("validation", val_evaluator),

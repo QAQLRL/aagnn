@@ -181,7 +181,7 @@ class TrainingConfig(BaseSettings):
     target: TARGET_ENUM = "formation_energy_peratom"
     neighbor_strategy  = 'k-nearest'
     # logging configuration
-
+    log_path: str = ''
     # training configuration;
     atom_features: str = 'cgcnn'
     random_seed: Optional[int] = 123

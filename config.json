@@ -31,6 +31,7 @@
     "store_outputs": true,
     "progress": true,
     "log_tensorboard": true,
+    "log_path":"/tf-logs/AAGNNv2/jarvis/",
     "standard_scalar_and_pca": false,
     "use_canonize": true,
     "num_workers": 2,

@@ -113,7 +113,7 @@ def read_from_file(dir: str = "../predicted_mixed_perovskites",target_file: str 
         # info['jid'] = file_name
         dataset.append(info)
     return  DataFrame(dataset)
-def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',cutoff=8,max_neighbors=12, classification_threshold=None,use_canonize=True) ->StructureDataset:
+def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',save_path='',cutoff=8,max_neighbors=12, classification_threshold=None,use_canonize=True) ->StructureDataset:
     '''
     返回StructureDataset    '''
 
@@ -123,7 +123,7 @@ def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',cutoff=8,ma
         df.loc[df['optb88vdw_bandgap'] <= classification_threshold, 'optb88vdw_bandgap'] = 0
         df.loc[df['optb88vdw_bandgap'] > classification_threshold , 'optb88vdw_bandgap'] = 1
         print("Converting target data into 1 and 0.")
-        
+
     graphs = load_graphs(df,cutoff=cutoff,max_neighbors=max_neighbors, use_canonize=use_canonize)
 
     #torch.utils.data.Dataset
@@ -136,7 +136,7 @@ def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',cutoff=8,ma
        
     )
     #保存数据，只有第一次才需要构造图，以后直接从文件读取
-    torch.save(data,f'dataset/graph_{target}.pt')
+    torch.save(data,f'{save_path}/graph_{target}.pt')
     return data
 
 def get_train_val_test_loader(
