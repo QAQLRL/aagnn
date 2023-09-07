@@ -113,16 +113,17 @@ def read_from_file(dir: str = "../predicted_mixed_perovskites",target_file: str 
         # info['jid'] = file_name
         dataset.append(info)
     return  DataFrame(dataset)
-def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',cutoff=8,max_neighbors=12, classification=False,use_canonize=True) ->StructureDataset:
+def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',cutoff=8,max_neighbors=12, classification_threshold=None,use_canonize=True) ->StructureDataset:
     '''
     返回StructureDataset    '''
 
     if df is None:
         df = read_from_file(dir,target_file)
+    if classification_threshold:   
+        df.loc[df['optb88vdw_bandgap'] <= classification_threshold, 'optb88vdw_bandgap'] = 0
+        df.loc[df['optb88vdw_bandgap'] > classification_threshold , 'optb88vdw_bandgap'] = 1
+        print("Converting target data into 1 and 0.")
         
-    df.loc[df['optb88vdw_bandgap'] <= 0.01, 'optb88vdw_bandgap'] = 0
-    df.loc[df['optb88vdw_bandgap'] > 0.01 , 'optb88vdw_bandgap'] = 1
-    print("Converting target data into 1 and 0.")
     graphs = load_graphs(df,cutoff=cutoff,max_neighbors=max_neighbors, use_canonize=use_canonize)
 
     #torch.utils.data.Dataset
@@ -131,7 +132,7 @@ def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',cutoff=8,ma
         graphs,
         target=target,
         atom_features='cgcnn',
-        classification=classification,
+        classification= True if classification_threshold is not None else False,
        
     )
     #保存数据，只有第一次才需要构造图，以后直接从文件读取
@@ -162,7 +163,7 @@ def get_train_val_test_loader(
     if isinstance(df,DataFrame) or df is None:
         data = load_dataset(df,target,dir,target_file,
                             cutoff=cutoff, max_neighbors=max_neighbors,                            
-                            classification= True if classification_threshold is not None else False,
+                            classification_threshold =  classification_threshold ,
                             use_canonize=use_canonize)
     # elif isinstance(df,StructureDataset) or isinstance(df,tuple):
     else:

@@ -83,6 +83,9 @@ def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_co
     train_val_test_loaders = get_train_val_test_loader(df,target, 
                                                     n_train=train_config.n_train,
                                                     classification_threshold=train_config.classification_threshold,
+                                                    train_ratio=train_config.train_ratio,
+                                                    val_ratio=train_config.val_ratio,
+                                                    test_ratio=train_config.test_ratio,
                                                     n_val=train_config.n_val, 
                                                     n_test=train_config.n_test,
                                                     pin_memory=train_config.pin_memory,
@@ -227,7 +230,6 @@ def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_co
         if  train_config.classification_threshold:
             def es_score(engine):
                 """Higher accuracy is better."""
-
                 return engine.state.metrics["accuracy"]
 
         else:
@@ -329,17 +331,26 @@ if __name__ == '__main__':
     
     #训练模型
     # target = ['formation_energy_peratom','optb88vdw_bandgap','optb88vdw_total_energy','ehull']
-    target = ['optb88vdw_bandgap','mbj_bandgap']
+    # target = ['optb88vdw_bandgap','mbj_bandgap','slme','spillage','ehull','n-Seebeck','p-Seebeck','n-powerfact', 'p-powerfact']
+    target = {'optb88vdw_bandgap':0.01,'mbj_bandgap':0.01,'slme':0.1,'spillage':0.1,'ehull':0.1,'n-Seebeck':-100,'p-Seebeck':100,'n-powerfact':1000, 'p-powerfact':1000}
     # print('train model is doing')
-    for name in target:
+    for name, thresholded in target.items:
         # 对于分类 不同的目标有不同的阈值
         print("target is: ",name)
         if os.path.exists(f'dataset/graph_{name}.pt'):
             data = torch.load(f'dataset/graph_{name}.pt')
         else:
-            data = pd.read_json('dataset/jdft_3d-8-18-2021.json')[:100]    
+            with open('dataset/jdft_3d-8-18-2021.json', 'r') as f:
+                data = f.read()
+
+            # 将字符串 "na" 替换为缺失值（NaN）
+            data = data.replace('"na"', 'NaN')
+
+            # 解析 JSON 数据
+            df = pd.read_json(data)
+            data = df.dropna(subset=name)
         # if train_config.classification_threshold:
-        train_config.classification_threshold = 0.01
+        train_config.classification_threshold = thresholded
         train_config.model.classification = True
         net = BondAngleGraphAttention(train_config.model)
         # try:
