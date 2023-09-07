@@ -72,7 +72,7 @@ def activated_output_transform(output):
     y_pred = torch.exp(y_pred)
     y_pred = y_pred[:, 1]
     return y_pred, y
-def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_config:TrainingConfig):
+def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_config:TrainingConfig,save_data_path:str = ''):
     manual_seed(42)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"dev is {device}")
@@ -88,6 +88,7 @@ def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_co
                                                     test_ratio=train_config.test_ratio,
                                                     n_val=train_config.n_val, 
                                                     n_test=train_config.n_test,
+                                                    save_data_path=save_data_path,
                                                     pin_memory=train_config.pin_memory,
                                                     workers=train_config.num_workers,
                                                     batch_size=train_config.batch_size,
@@ -337,10 +338,13 @@ if __name__ == '__main__':
     for name, thresholded in target.items:
         # 对于分类 不同的目标有不同的阈值
         print("target is: ",name)
-        if os.path.exists(f'dataset/graph_{name}.pt'):
-            data = torch.load(f'dataset/graph_{name}.pt')
+        # dataset = "dataset"
+        dataset_dir = '/root/autodl-fs/dataset'
+
+        if os.path.exists(f'{name}.pt'):
+            data = torch.load(f'{dataset_dir}/graph_{name}.pt')
         else:
-            with open('dataset/jdft_3d-8-18-2021.json', 'r') as f:
+            with open(f'{dataset_dir}/jdft_3d-8-18-2021.json', 'r') as f:
                 data = f.read()
 
             # 将字符串 "na" 替换为缺失值（NaN）
@@ -354,10 +358,10 @@ if __name__ == '__main__':
         train_config.model.classification = True
         net = BondAngleGraphAttention(train_config.model)
         # try:
-        train(net,data,name,train_config)
+        train(net,data,name,train_config,dataset_dir)
         print(f"train target: {name} is done\n\n")
         # except Exception as e:
         #     print("出错了：",e)
 
     # print("trian is end")
-    os.system('/root/attention-alignn/upload.sh')
+    os.system("/usr/bin/shutdown")

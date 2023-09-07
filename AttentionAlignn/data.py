@@ -113,7 +113,7 @@ def read_from_file(dir: str = "../predicted_mixed_perovskites",target_file: str 
         # info['jid'] = file_name
         dataset.append(info)
     return  DataFrame(dataset)
-def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',save_path='',cutoff=8,max_neighbors=12, classification_threshold=None,use_canonize=True) ->StructureDataset:
+def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',save_data_path='',cutoff=8,max_neighbors=12, classification_threshold=None,use_canonize=True) ->StructureDataset:
     '''
     返回StructureDataset    '''
 
@@ -136,7 +136,7 @@ def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',save_path='
        
     )
     #保存数据，只有第一次才需要构造图，以后直接从文件读取
-    torch.save(data,f'{save_path}/graph_{target}.pt')
+    torch.save(data,f'{save_data_path}/graph_{target}.pt')
     return data
 
 def get_train_val_test_loader(
@@ -145,6 +145,7 @@ def get_train_val_test_loader(
     dir: str = "./AttentionAlignn/examples/sample_data",
     target_file: str ='id_prop.csv',
     classification_threshold=None,
+    save_data_path='',
     pin_memory = False,
     train_ratio=0.8,
     val_ratio=0.1,
@@ -162,7 +163,8 @@ def get_train_val_test_loader(
     #加载数据集
     if isinstance(df,DataFrame) or df is None:
         data = load_dataset(df,target,dir,target_file,
-                            cutoff=cutoff, max_neighbors=max_neighbors,                            
+                            cutoff=cutoff, max_neighbors=max_neighbors,
+                            save_data_path=save_data_path,                       
                             classification_threshold =  classification_threshold ,
                             use_canonize=use_canonize)
     # elif isinstance(df,StructureDataset) or isinstance(df,tuple):
