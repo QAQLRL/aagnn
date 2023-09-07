@@ -358,11 +358,11 @@ if __name__ == '__main__':
         train_config.classification_threshold = thresholded
         train_config.model.classification = True
         net = BondAngleGraphAttention(train_config.model)
-        # try:
-        train(net,data,name,train_config,dataset_dir)
-        print(f"train target: {name} is done\n\n")
-        # except Exception as e:
-        #     print("出错了：",e)
+        try:
+            train(net,data,name,train_config,dataset_dir)
+            print(f"train target: {name} is done\n\n")
+        except Exception as e:
+            print("出错了：",e)
 
     # print("trian is end")
     os.system("/usr/bin/shutdown")
