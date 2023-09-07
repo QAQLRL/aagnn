@@ -329,7 +329,7 @@ if __name__ == '__main__':
     
     #训练模型
     # target = ['formation_energy_peratom','optb88vdw_bandgap','optb88vdw_total_energy','ehull']
-    target = ['optb88vdw_bandgap']
+    target = ['optb88vdw_bandgap','mbj_bandgap']
     # print('train model is doing')
     for name in target:
         # 对于分类 不同的目标有不同的阈值

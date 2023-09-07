@@ -9,7 +9,7 @@ from pydantic.typing import Literal
 class ALIGNNConfig(BaseSettings):
     """Hyperparameter schema for jarvisdgl.models.alignn."""
 
-    name: Literal["alignn"]
+    name: Literal["aagnn"]
     alignn_layers: int = 10
     gat_layers: int = 1
     gcnii_layers: int = 6
@@ -229,6 +229,6 @@ class TrainingConfig(BaseSettings):
     # embedding_features: int=64
 
     # model configuration
-    model = ALIGNNConfig(name="alignn")
+    model = ALIGNNConfig(name="aagnn")
 
 
