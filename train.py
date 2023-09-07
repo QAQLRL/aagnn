@@ -363,6 +363,7 @@ if __name__ == '__main__':
             print(f"train target: {name} is done\n\n")
         except Exception as e:
             print("出错了：",e)
+            os.system("/usr/bin/shutdown")
 
     # print("trian is end")
     os.system("/usr/bin/shutdown")
