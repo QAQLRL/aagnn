@@ -39,7 +39,7 @@
     "keep_data_order": false,
    
     "model": {
-        "name": "alignn",
+        "name": "aagnn",
         "alignn_layers": 4,
         "gat_layers":4,
         "gcnii_layers":6,
