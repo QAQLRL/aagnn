@@ -275,7 +275,7 @@ def train(model: nn.Module,df:Union[DataFrame,StructureDataset], target,train_co
         else:
             metric_names=["accuracy","rocauc"]
         
-        tb_logger = TensorboardLogger(train_config.log_dir+target)
+        tb_logger = TensorboardLogger(train_config.log_path+target)
         for tag, evaluator in [
             ("training", train_evaluator),
             ("validation", val_evaluator),
