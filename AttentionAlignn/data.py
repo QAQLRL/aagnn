@@ -120,9 +120,8 @@ def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',save_data_p
     if df is None:
         df = read_from_file(dir,target_file)
     if classification_threshold:   
-        df.loc[df[target] <= classification_threshold, target] = 0
-        df.loc[df[target] > classification_threshold , target] = 1
-        print("Converting target data into 1 and 0.")
+        df[target] = df[target].apply(lambda x: 1 if x > classification_threshold else 0)
+        print(f"Converting {target} into 1 and 0.")
 
     graphs = load_graphs(df,cutoff=cutoff,max_neighbors=max_neighbors, use_canonize=use_canonize)
 
