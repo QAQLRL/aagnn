@@ -334,7 +334,7 @@ if __name__ == '__main__':
     # target = ['formation_energy_peratom','optb88vdw_bandgap','optb88vdw_total_energy','ehull']
     # target = ['optb88vdw_bandgap','mbj_bandgap','slme','spillage','ehull','n-Seebeck','p-Seebeck','n-powerfact', 'p-powerfact']
     # target = {'optb88vdw_bandgap':0.01,'mbj_bandgap':0.01,'slme':10,'spillage':0.1,'ehull':0.1,'n-Seebeck':-100,'p-Seebeck':100,'n-powerfact':1000, 'p-powerfact':1000}
-    target = {'mbj_bandgap':0.01,'slme':10,'spillage':0.1,'ehull':0.1,'n-Seebeck':-100,'p-Seebeck':100,'n-powerfact':1000, 'p-powerfact':1000}
+    target = {'slme':10,'spillage':0.1,'ehull':0.1,'n-Seebeck':-100,'p-Seebeck':100,'n-powerfact':1000, 'p-powerfact':1000}
     # print('train model is doing')
     for name, thresholded in target.items():
         # 对于分类 不同的目标有不同的阈值
@@ -363,7 +363,7 @@ if __name__ == '__main__':
             print(f"train target: {name} is done\n\n")
         except Exception as e:
             print("出错了：",e)
-            os.system("/usr/bin/shutdown")
+            # os.system("/usr/bin/shutdown")
 
     # print("trian is end")
     os.system("/usr/bin/shutdown")
