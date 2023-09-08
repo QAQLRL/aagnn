@@ -8,3 +8,4 @@ checkpoint/
 .vscode
 tf_logs/
 history*
+main.ipynb
