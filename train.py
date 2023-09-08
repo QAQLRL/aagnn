@@ -334,15 +334,15 @@ if __name__ == '__main__':
     # target = ['formation_energy_peratom','optb88vdw_bandgap','optb88vdw_total_energy','ehull']
     # target = ['optb88vdw_bandgap','mbj_bandgap','slme','spillage','ehull','n-Seebeck','p-Seebeck','n-powerfact', 'p-powerfact']
     # target = {'optb88vdw_bandgap':0.01,'mbj_bandgap':0.01,'slme':10,'spillage':0.1,'ehull':0.1,'n-Seebeck':-100,'p-Seebeck':100,'n-powerfact':1000, 'p-powerfact':1000}
-    target = {'slme':10,'spillage':0.1,'ehull':0.1,'n-Seebeck':-100,'p-Seebeck':100,'n-powerfact':1000, 'p-powerfact':1000}
+    target = {'magmom_oszicar':0.05,'slme':10,'spillage':0.1,'ehull':0.1,'n-Seebeck':-100,'p-Seebeck':100,'n-powerfact':1000, 'p-powerfact':1000}
     # print('train model is doing')
     for name, thresholded in target.items():
         # 对于分类 不同的目标有不同的阈值
         print("target is: ",name)
-        # dataset = "dataset"
+        # dataset_dir = "dataset"
         dataset_dir = '/root/autodl-fs/dataset'
 
-        if os.path.exists(f'{name}.pt'):
+        if os.path.exists(f'{dataset_dir}/graph_{name}.pt'):
             data = torch.load(f'{dataset_dir}/graph_{name}.pt')
         else:
             with open(f'{dataset_dir}/jdft_3d-8-18-2021.json', 'r') as f:
