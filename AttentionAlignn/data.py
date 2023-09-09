@@ -210,7 +210,7 @@ def get_train_val_test_loader(
         batch_size=batch_size,
         shuffle=False,
         collate_fn=collate_fn,
-        drop_last=False,
+        drop_last=True,
         pin_memory=pin_memory,
         num_workers=workers
         )

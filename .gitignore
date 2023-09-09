@@ -6,6 +6,6 @@ test.ipynb
 dataset/
 checkpoint/
 .vscode
-tf_logs/
+tf-logs/
 history*
 main.ipynb
