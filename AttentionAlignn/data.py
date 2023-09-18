@@ -135,7 +135,7 @@ def load_dataset(df:DataFrame=None,target=None,dir='',target_file='',save_data_p
        
     )
     #保存数据，只有第一次才需要构造图，以后直接从文件读取
-    torch.save(data,f'{save_data_path}/graph_{target}.pt')
+    torch.save(data,f'{save_data_path}/regression/graph_{target}.pt')
     return data
 
 def get_train_val_test_loader(
