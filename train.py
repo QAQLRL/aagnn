@@ -342,8 +342,9 @@ if __name__ == '__main__':
         print("target is: ",name)
         # dataset_dir = "dataset"
         dataset_dir = '/root/autodl-fs/dataset'
+        regression_dir = '/root/autodl-fs/dataset/regression'
 
-        if os.path.exists(f'{dataset_dir}/graph_{name}.pt'):
+        if os.path.exists(f'{regression_dir}/graph_{name}.pt'):
             data = torch.load(f'{dataset_dir}/graph_{name}.pt')
         else:
             with open(f'{dataset_dir}/jdft_3d-8-18-2021.json', 'r') as f:
@@ -358,7 +359,7 @@ if __name__ == '__main__':
         # train_config.model.classification = True
         net = BondAngleGraphAttention(train_config.model)
         try:
-            train(net,data,name,train_config,dataset_dir)
+            train(net,data,name,train_config,regression_dir)
             print(f"train target: {name} is done\n\n")
         except Exception as e:
             print("出错了：",e)
