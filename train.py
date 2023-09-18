@@ -345,7 +345,7 @@ if __name__ == '__main__':
         regression_dir = '/root/autodl-fs/dataset/regression'
 
         if os.path.exists(f'{regression_dir}/graph_{name}.pt'):
-            data = torch.load(f'{dataset_dir}/graph_{name}.pt')
+            data = torch.load(f'{regression_dir}/graph_{name}.pt')
         else:
             with open(f'{dataset_dir}/jdft_3d-8-18-2021.json', 'r') as f:
                 data = f.read()
