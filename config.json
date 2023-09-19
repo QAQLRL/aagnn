@@ -23,7 +23,7 @@
     "criterion": "mse",
     "optimizer": "adamw",
     "scheduler": "onecycle",
-    "n_early_stopping":30,
+    "n_early_stopping":60,
     "pin_memory": true,
     "save_dataloader": false,
     "write_checkpoint": true,
